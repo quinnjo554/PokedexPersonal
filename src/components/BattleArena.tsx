@@ -136,7 +136,11 @@ function BattleArena(props: {
           alt=""
         />
       </div>
-      <div className="player1 bg-white text-black p-4 rounded-lg absolute bottom-6 right-[20%]">
+      <div
+        className={`player1 bg-white text-black p-4 rounded-lg absolute bottom-6 right-[20%] ${
+          isPlayer1Defeated ? "fadeOut" : ""
+        }`}
+      >
         <h1 className="text-2xl font-bold mb-2">{player1Data?.name}</h1>
         <div className="health-bar bg-red-400 h-4 mb-2">
           <div
@@ -152,31 +156,49 @@ function BattleArena(props: {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2">
-          {props.player1Moves.map((value, index) => (
-            <div
-              key={index}
-              className="bg-gray-200 text-black px-2 py-1 rounded-md text-sm"
-            >
-              <button
-                disabled={isPlayer1Defeated || isAIDefeated}
-                onClick={() => handlePokemonMove(value.move.name)}
+          {isPlayer1Turn ? (
+            props.player1Moves.map((value, index) => (
+              <div
+                key={index}
+                className="bg-gray-200 text-black px-2 py-1 rounded-md text-sm"
               >
-                {value.move.name}
-              </button>
-            </div>
-          ))}
+                <button
+                  disabled={isPlayer1Defeated || isAIDefeated}
+                  onClick={() => handlePokemonMove(value.move.name)}
+                >
+                  {value.move.name}
+                </button>
+              </div>
+              //handlePokemonMove(props.aiMoveSet[0].move.name) this doesnt need a move because it will take a random one anyway
+            ))
+          ) : (
+            <button
+              className="bg-gray-200 px-2 py-1 rounded-md text-sm"
+              onClick={() => {
+                handlePokemonMove(props.aiMoveSet[0].move.name);
+              }}
+            >
+              {aiData?.name}'s Turn
+            </button>
+          )}
         </div>
       </div>
       <div>
         <img
-          className="w-1/3 right-[9%] top-[10%] fixed"
+          className={`w-1/3 right-[9%] top-[10%] fixed ${
+            isAIDefeated ? "fadeOut" : ""
+          }`}
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${props.ai}.png`}
           alt=""
         />
       </div>
-      <div className="ai bg-white text-black p-4 rounded-lg absolute top-6 left-[20%]">
+      <div
+        className={`ai bg-white text-black p-4 rounded-lg absolute top-6 left-[20%] ${
+          isAIDefeated ? "fadeOut" : ""
+        }`}
+      >
         <h1 className="text-2xl font-bold mb-2">{aiData?.name}</h1>
-        <div className="health-bar bg-red-400 h-4 mb-2">
+        <div className="health-bar bg-red-400 h-4 mb-2 ">
           <div
             className="bg-green-400 h-full"
             style={{
@@ -190,6 +212,19 @@ function BattleArena(props: {
           </div>
         </div>
       </div>
+      {isPlayer1Defeated && (
+        <div className="pokemon-won-screen">
+          <h2 className="text-4xl text-white">{aiData?.name} Won!</h2>
+          {/* Add additional content or styling for the won screen */}
+        </div>
+      )}
+
+      {isAIDefeated && (
+        <div className="pokemon-won-screen">
+          <h2 className=" text-4xl text-white">{player1Data?.name} Won!</h2>
+          {/* Add additional content or styling for the won screen */}
+        </div>
+      )}
     </div>
   );
 }
