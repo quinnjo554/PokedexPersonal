@@ -14,6 +14,8 @@ function BattleArena(props: {
   const [player1CurrentHP, setPlayer1CurrentHP] = useState<number>(0);
   const [aiCurrentHP, setAICurrentHP] = useState<number>(0);
   const [isPlayer1Turn, setIsPlayer1Turn] = useState(false);
+  const [isPlayer1Defeated, setIsPlayer1Defeated] = useState(false);
+  const [isAIDefeated, setIsAIDefeated] = useState(false);
 
   //set level of pokemon with a slider
 
@@ -50,6 +52,10 @@ function BattleArena(props: {
       const move = await getMoveInfo(name);
       setAICurrentHP((prev) => {
         const damage = calculateDamage(player1Data, aiData, move);
+        if (prev - damage <= 0) {
+          setIsAIDefeated(true);
+          return 0;
+        }
         return (prev -= damage);
       });
       setIsPlayer1Turn((prev) => {
@@ -60,6 +66,10 @@ function BattleArena(props: {
       const move = await getMoveInfo(props.aiMoveSet[randomNumber].move.name);
       setPlayer1CurrentHP((prev) => {
         const damage = calculateDamage(aiData, player1Data, move);
+        if (prev - damage <= 0) {
+          setIsPlayer1Defeated(true);
+          return 0;
+        }
         return (prev -= damage);
       });
       setIsPlayer1Turn((prev) => {
@@ -115,13 +125,13 @@ function BattleArena(props: {
     getAIPokemon();
   }, [props.ai]);
 
-  const player1Hp = player1Data?.hp ?? 0;
-  const aiHp = aiData?.hp ?? 0;
   return (
     <div className="fixed top-0 right-0 w-full h-full arena bg-gray-900">
       <div>
         <img
-          className="w-1/3 left-[9%] bottom-[-11rem] fixed"
+          className={`w-1/3 left-[9%] bottom-[-11rem] fixed ${
+            isPlayer1Defeated ? "fadeOut" : ""
+          }`}
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${props.player1}.png`}
           alt=""
         />
@@ -147,7 +157,10 @@ function BattleArena(props: {
               key={index}
               className="bg-gray-200 text-black px-2 py-1 rounded-md text-sm"
             >
-              <button onClick={() => handlePokemonMove(value.move.name)}>
+              <button
+                disabled={isPlayer1Defeated || isAIDefeated}
+                onClick={() => handlePokemonMove(value.move.name)}
+              >
                 {value.move.name}
               </button>
             </div>

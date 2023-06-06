@@ -7,13 +7,15 @@ function LandingNav(props: { hasButtons: boolean }) {
     <div className="fixed top-0 w-full h-20 rounded-md bg-black shadow-md shadow-gray-400">
       <div className="content">
         <div>
-          <img
-            src={Pokeball}
-            alt=""
-            width={"60px"}
-            height={"60px"}
-            className="fixed top-2 ml-3"
-          />
+          <Link to="/">
+            <img
+              src={Pokeball}
+              alt=""
+              width={"60px"}
+              height={"60px"}
+              className="fixed top-2 ml-3"
+            />
+          </Link>
           <h1 className="fixed left-24 top-5 text-2xl w-max font-semibold text-white">
             Pokedex
           </h1>
