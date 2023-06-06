@@ -1,0 +1,58 @@
+
+
+
+.PickAPokemon{
+  background-image: url("./assets/pokémon-minimalism-pixel-art-nintendo-wallpaper-preview.jpg");
+  background-size: cover;
+}
+
+.pokemon-card:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  .contrastImg {
+    -webkit-filter: contrast(0) sepia(100%) hue-rotate(190deg) saturate(2000%) brightness(0%);
+    filter: contrast(0) sepia(100%) hue-rotate(190deg) saturate(2000%) brightness(0%);
+  }
+.whosThatPoke{
+  background-image: url("./assets/maxresdefault.jpg");
+  background-size: cover;
+  
+}
+.pokeSillowette{
+  transform: translateX(-28rem);
+  
+}
+.starfield-canvas-pokemon{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+  
+}
+.starfield-canvas{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  opacity: 20%;
+}
+
+
+  @media (max-width: 768px) {
+    /* Styles for screens with a maximum width of 768px */
+    
+    .searchBar {
+        visibility: hidden;
+        
+      }
+    .whosThatpoke {
+      visibility: visible;
+    }
+    
+  }
+  
