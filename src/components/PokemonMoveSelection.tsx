@@ -100,7 +100,7 @@ function PokemonMoveSelection() {
         <h2 className="text-xl mt-4">Selected Moves:</h2>
         <div className="flex justify-between">
           <div>
-            <h3 className="text-lg">Player 1:</h3>
+            <h3 className="text-lg ml-5">Player 1:</h3>
             <ul>
               {selectedPlayer1Moves.map((move, index) => (
                 <li key={index}>{move.move.name}</li>
@@ -108,7 +108,7 @@ function PokemonMoveSelection() {
             </ul>
           </div>
           <div>
-            <h3 className="text-lg">AI:</h3>
+            <h3 className="text-lg mr-5">AI:</h3>
             <ul>
               {selectedAiMoves.map((move, index) => (
                 <li key={index}>{move.move.name}</li>
