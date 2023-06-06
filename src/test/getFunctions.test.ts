@@ -1,22 +1,14 @@
 
 import * as GetFunctions from "../Pokefunctions/getFunctions"
-import { pokemon } from "../interfaces";
+import { capitalizeFirstLetter } from "../Pokefunctions/getFunctions";
 const {} = jest.requireActual<typeof GetFunctions>("../Pokefunctions/getFunctions")
 
-
-
-
-  async function getData(id:string | undefined){
-    const data:pokemon = await GetFunctions.getPokemonById(id);
-    return data
-  }
-
+  //ask steve about testing with async 
   describe('Get Pokemon Id', () => {
-    it('should fetch a paginated list of all pokemon', async () => {
-      const page = "1";
-      const data:pokemon = await GetFunctions.getPokemonById(page);
-      console.log(data.name)
-      expect(data.name).toBe("Bulbasaur")
+    it('should fetch a paginated list of all pokemon', () => {
+      const word = "mars";
+        const result = capitalizeFirstLetter(word);
+        expect(result).toBe("Mars");
     });
   });
   

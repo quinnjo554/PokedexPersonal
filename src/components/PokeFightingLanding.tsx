@@ -9,7 +9,7 @@ import { MoveLearnset, pokemon } from "../interfaces";
 
 function PokeFightingLanding() {
   const [pokemonArray, setPokemonArray] = useState<Array<pokemon>>([]);
-  const [pokemonMoveSet, setPokemonMoveSet] = useState<Array<MoveLearnset>>();
+  //const [pokemonMoveSet, setPokemonMoveSet] = useState<Array<MoveLearnset>>();
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [pokemonData, setPokemonData] = useState<pokemon[]>([]);
@@ -30,10 +30,10 @@ function PokeFightingLanding() {
       const pokemon = await getPokemonByName(name);
       const moves = await getLearnset(pokemon.id);
       setPokemonData((prev) => {
-        const newPokemon = [...prev, pokemon];
+        const newPokemon = [pokemon, ...prev];
         return newPokemon.slice(0, 2);
       });
-      setPokemonMoveSet(moves);
+      //setPokemonMoveSet(moves);
       setPokeImg((prevImages) => {
         const newImages = [
           `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`,
@@ -57,23 +57,29 @@ function PokeFightingLanding() {
   }, []);
 
   return (
-    <div className="text-black rounded-md flex flex-col items-center justify-center h-screen PickAPokemon">
-      <div className="flex">
-        {pokeImg.map((value, index) => {
-          return <img className="w-full" key={index} src={value} alt={value} />;
-        })}
+    <div className="text-black rounded-md flex flex-col items-center justify-center h-screen w-screen PickAPokemon">
+      <div className="flex mr-5">
+        {pokeImg.map((value, index) => (
+          <img
+            className="mr-32"
+            width="200px"
+            key={index}
+            src={value}
+            alt={value}
+          />
+        ))}
       </div>
 
       <div className="w-1/2">
         <input
           ref={inputRef}
-          className="w-full border-2 rounded-lg p-2 mb-4"
+          className="w-full border-2 rounded-lg p-2"
           type="text"
           placeholder="Search Pokemon"
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <div className="h-52  text-white overflow-y-scroll flex flex-col items-center justify-center">
+        <div className="h-64 text-white bg-slate-300 bg-opacity-70 rounded-lg overflow-y-scroll flex flex-col items-center justify-center">
           {filteredSearch.map((pokemonItem) => (
             <div
               className="text-center mt-2 bg-white text-black rounded-md w-2/3 p-2 cursor-pointer"
