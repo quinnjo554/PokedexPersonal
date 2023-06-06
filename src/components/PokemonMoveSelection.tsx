@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getLearnset } from "../Pokefunctions/getFunctions";
 import { MoveLearnset } from "../interfaces";
-import { Link } from "react-router-dom";
 import BattleArena from "./BattleArena";
 function PokemonMoveSelection() {
   const [player1Moves, setPlayer1Moves] = useState<Array<MoveLearnset>>([]);
@@ -51,8 +50,9 @@ function PokemonMoveSelection() {
             alt=""
             className="w-40 mx-auto mb-4 "
           />
+          <img src="" alt="" />
           <h2 className="text-xl mb-2">Player 1 Moves:</h2>
-          <ul className="list-disc mx-auto w-full h-40 overflow-y-auto">
+          <ul className="list-disc mx-auto w-full h-40 overflow-y-auto ">
             {player1Moves.map((move, index) => (
               <li
                 key={index}
@@ -99,24 +99,28 @@ function PokemonMoveSelection() {
       <div>
         <h2 className="text-xl mt-4">Selected Moves:</h2>
         <div className="flex justify-between">
-          <div>
-            <h3 className="text-lg">Player 1:</h3>
-            <ul>
+          <div className="bg-blie">
+            <h3 className="text-lg ml-5">Player 1:</h3>
+            <ul className="ml-5">
               {selectedPlayer1Moves.map((move, index) => (
-                <li key={index}>{move.move.name}</li>
+                <li key={index} className="py-1">
+                  {move.move.name}
+                </li>
               ))}
             </ul>
           </div>
           <div>
-            <h3 className="text-lg">AI:</h3>
-            <ul>
+            <h3 className="text-lg mr-5">AI:</h3>
+            <ul className="mr-5">
               {selectedAiMoves.map((move, index) => (
-                <li key={index}>{move.move.name}</li>
+                <li key={index} className="py-1">
+                  {move.move.name}
+                </li>
               ))}
             </ul>
           </div>
         </div>
-        {selectedAiMoves.length == 4 && selectedPlayer1Moves.length == 4 ? (
+        {selectedAiMoves.length === 4 && selectedPlayer1Moves.length === 4 ? (
           <BattleArena
             player1={player1}
             ai={ai}

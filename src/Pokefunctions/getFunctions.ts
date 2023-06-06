@@ -1,7 +1,7 @@
+//6 endpoints from your backend
 
 import axios from 'axios';
 import { Move, MoveLearnset } from '../interfaces';
-import { type } from 'os';
 
 export async function getLearnset(pokemonId: number): Promise<MoveLearnset[] | undefined> {
   try {

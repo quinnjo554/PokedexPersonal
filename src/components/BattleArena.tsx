@@ -108,7 +108,7 @@ function BattleArena(props: {
       setPlayer1Data(player1Pokemon);
       setPlayer1CurrentHP(player1Pokemon?.hp);
       const first =
-        aiData?.speed && player1Data?.speed
+        aiData && player1Data && aiData.speed && player1Data.speed
           ? aiData.speed > player1Data.speed
           : true;
       setIsPlayer1Turn(first);
@@ -185,7 +185,7 @@ function BattleArena(props: {
       </div>
       <div>
         <img
-          className={`w-1/3 right-[9%] top-[10%] fixed ${
+          className={`w-[29%] right-[12%] top-[8%] fixed ${
             isAIDefeated ? "fadeOut" : ""
           }`}
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${props.ai}.png`}
