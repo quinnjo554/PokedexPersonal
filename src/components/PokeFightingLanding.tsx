@@ -1,11 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  getAllPokemon,
-  getLearnset,
-  getPokemonByName,
-} from "../Pokefunctions/getFunctions";
-import { MoveLearnset, pokemon } from "../interfaces";
+import { getAllPokemon, getPokemonByName } from "../Pokefunctions/getFunctions";
+import { pokemon } from "../interfaces";
 
 function PokeFightingLanding() {
   const [pokemonArray, setPokemonArray] = useState<Array<pokemon>>([]);
@@ -28,9 +24,8 @@ function PokeFightingLanding() {
     setInput(name);
     try {
       const pokemon = await getPokemonByName(name);
-      const moves = await getLearnset(pokemon.id);
       setPokemonData((prev) => {
-        const newPokemon = [pokemon, ...prev];
+        const newPokemon = [...prev, pokemon];
         return newPokemon.slice(0, 2);
       });
       //setPokemonMoveSet(moves);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
+  getAbilityDef,
   getPokeIdByName,
   getPokemonById,
   getPokemonEvolution,
@@ -40,6 +41,8 @@ function PokemonPage() {
   const [pokeFamilyIds, setPokeFamilyIds] = useState<number>(0);
   const [background, setBackground] = useState<Array<string>>([]);
   const [updatePage, setUpdatePage] = useState(false);
+  const [abilityDef, SetAbilityDef] = useState<Array<string>>([]);
+  const [showAbillityDef, setShowAbilityDef] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const options = {
@@ -141,6 +144,9 @@ function PokemonPage() {
       setSprteRender(
         `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
       );
+      // const abilities = pokeData?.abilities.map((ability) => ability.name);
+      // const abilityDefs = await getAbilityDef(pokeData?.abilities);
+      // SetAbilityDef(abilityDefs);
     }
     getPokeData();
   }, [updatePage]);
@@ -287,16 +293,17 @@ function PokemonPage() {
                 </div>
               </div>
             </div>
-
             <div
               className={`${background[0]} mt-8 bg-opacity-60 p-4 rounded-lg shadow-lg`}
             >
               <h2 className="text-xl font-bold mb-4">Abilities</h2>
               <ul className="flex">
                 {pokeData.abilities.map((value, index) => (
-                  <li className="mr-3" key={index}>
-                    {value.name}
-                  </li>
+                  <div>
+                    <li className="mr-3" key={index}>
+                      {value.name}
+                    </li>
+                  </div>
                 ))}
               </ul>
             </div>

@@ -1,7 +1,8 @@
 //6 endpoints from your backend
 
 import axios from 'axios';
-import { Move, MoveLearnset } from '../interfaces';
+import { Ability, Move, MoveLearnset } from '../interfaces';
+
 
 export async function getLearnset(pokemonId: number): Promise<MoveLearnset[] | undefined> {
   try {
@@ -24,9 +25,32 @@ export async function getMoveInfo(name:string){
   const data =  response.data
   const move:Move = {
     basePower: data.power,
-    type:data.type.name
+    type:data.type.name,
+    accuracy:data.accuracy
   }
   return move
+}
+
+
+export async function getAbilityDef(abilities: any[] | undefined): Promise<string[]> {
+  if (!abilities) {
+    return [];
+  }
+
+  const abilityDefPromises = abilities.map(async (ability) => {
+    const response = await axios.get(`https://pokeapi.co/api/v2/ability/${ability.name}`);
+    const data = response.data;
+    const allEntries = data.flavor_text_entries;
+    let definition = '';
+    allEntries.forEach((entry: any) => {
+      if (entry.language.name === 'en') {
+        definition = entry.flavor_text;
+      }
+    });
+    return definition;
+  });
+  const abilityDefs = await Promise.all(abilityDefPromises);
+  return abilityDefs;
 }
 
 
@@ -66,11 +90,6 @@ export async function getPokemonById(id:string | undefined) {
       console.log(error);
     }
   }
-
- 
- 
-  
-
 
   export async function getRandomPokemon() {
     try {
@@ -154,4 +173,8 @@ export async function getAllPokemonImgs(pokemon: string) {
 
 export function capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toLowerCase() + str.slice(1);
+}
+
+export function add(a:number,b:number){
+  return a+b;
 }

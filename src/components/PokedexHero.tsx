@@ -7,14 +7,11 @@ import {
 } from "../Pokefunctions/getFunctions";
 import { Link, useParams } from "react-router-dom";
 import { pokemon } from "../interfaces";
-import { TypeColors } from "../interfaces";
 import { typeColors } from "../interfaces";
 import LandingNav from "./LandingNav";
 import backArrow from "../assets/icons8-back-arrow-100.png";
 import { useRef } from "react";
 import { getPokemonByType } from "../Pokefunctions/getFunctions";
-import Tilt from "react-parallax-tilt";
-
 //ask sully or steve about how they would gothrough the evolution chain in the pokedex
 //add random pokemon button
 function PokedexHero() {
@@ -25,6 +22,11 @@ function PokedexHero() {
   const [searchInput, setSearchInput] = useState("");
   const [showFilter, setShowFilter] = useState(false);
   const [randomPokemonId, setRandomPokemonId] = useState(0);
+  const [seenPokemonTypes, setSeenPokemonTypes] = useState<Array<string>>([]);
+  const [seenPokemonAbilities, setSeenPokemonAbilities] = useState<
+    Array<string>
+  >([]);
+
   const { page } = useParams();
   const inputRef = useRef<HTMLInputElement>(null);
   //need for filtering
@@ -38,22 +40,23 @@ function PokedexHero() {
     : [];
   //filter for type
   const filteredSearchType = searchOption
-    ? allPokemon.filter((item, index, self) => {
+    ? seenPokemonTypes.filter((item, index, self) => {
         const lowerCaseSearchInput = searchInput.toLowerCase();
+
         return (
-          item.types[0].name.toLowerCase().includes(lowerCaseSearchInput) &&
-          self.findIndex((elem) => elem.name === item.name) === index
+          item.toLowerCase().includes(lowerCaseSearchInput) &&
+          self.findIndex((elem) => elem === item) === index
         );
       })
     : [];
 
   //filter for abilities
   const filteredSearchAbilities = searchOption
-    ? allPokemon.filter((item, index, self) => {
+    ? seenPokemonAbilities.filter((item, index, self) => {
         const lowerCaseSearchInput = searchInput.toLowerCase();
         return (
-          item.abilities[0].name.toLowerCase().includes(lowerCaseSearchInput) &&
-          self.findIndex((elem) => elem.name === item.name) === index
+          item.toLowerCase().includes(lowerCaseSearchInput) &&
+          self.findIndex((elem) => elem === item) === index
         );
       })
     : [];
@@ -105,30 +108,30 @@ function PokedexHero() {
     }
   };
 
-  function handleFilterOnClick(value: pokemon) {
+  function handleFilterOnClick(value: string) {
     switch (searchOption) {
       case "types":
-        setSearchInput(value.types[0].name);
+        setSearchInput(value);
         if (inputRef.current) {
-          inputRef.current.value = value.types[0].name;
+          inputRef.current.value = value;
         }
         break;
       case "ability":
-        setSearchInput(value.abilities[0].name);
+        setSearchInput(value);
         if (inputRef.current) {
-          inputRef.current.value = value.abilities[0].name;
+          inputRef.current.value = value;
         }
         break;
       case "name":
-        setSearchInput(value.name);
+        setSearchInput(value);
         if (inputRef.current) {
-          inputRef.current.value = value.name;
+          inputRef.current.value = value;
         }
         break;
       default:
-        setSearchInput(value.name);
+        setSearchInput(value);
         if (inputRef.current) {
-          inputRef.current.value = value.name;
+          inputRef.current.value = value;
         }
         break;
     }
@@ -148,6 +151,7 @@ function PokedexHero() {
         setRandomPokemonId(data.id);
       });
     }
+    console.log(seenPokemonTypes);
     getRandPokemon();
   }, []);
 
@@ -155,8 +159,17 @@ function PokedexHero() {
     async function getAllpokemonForFilter() {
       const allData = await getAllPokemon("0", 550);
       setAllPokemon(allData["content"]);
+      const uniqueTypes = new Set<string>();
+      const uniqueAbilities = new Set<string>();
+      allPokemon.forEach((value: pokemon) => {
+        uniqueTypes.add(value.types[0].name);
+        uniqueAbilities.add(value.abilities[0].name);
+      });
+      setSeenPokemonTypes(Array.from(uniqueTypes));
+      setSeenPokemonAbilities(Array.from(uniqueAbilities));
     }
     getAllpokemonForFilter();
+    console.log({ seenPokemonAbilities });
   }, []);
 
   useEffect(() => {
@@ -170,9 +183,7 @@ function PokedexHero() {
       setPokeArray(data["content"]);
       setPokemonPages(data["totalPages"]);
     };
-
     fetchData();
-
     setPageNum(Number(page));
   }, [page]);
 
@@ -227,7 +238,7 @@ function PokedexHero() {
                     <Link to={`/pokemonPage/${value.id}`}>
                       <li
                         key={index}
-                        onClick={() => handleFilterOnClick(value)}
+                        onClick={() => handleFilterOnClick(value.name)}
                         className="px-4 py-2 cursor-pointer hover:bg-gray-200"
                       >
                         {value.name}
@@ -241,7 +252,7 @@ function PokedexHero() {
                       onClick={() => handleFilterOnClick(value)}
                       className="px-4 py-2 cursor-pointer hover:bg-gray-200"
                     >
-                      {value.types[0].name}
+                      {value}
                     </li>
                   ))
                 : searchOption === "ability" &&
@@ -251,7 +262,7 @@ function PokedexHero() {
                       onClick={() => handleFilterOnClick(value)}
                       className="px-4 py-2 cursor-pointer hover:bg-gray-200"
                     >
-                      {value.abilities[0].name}
+                      {value}
                     </li>
                   ))}
             </ul>

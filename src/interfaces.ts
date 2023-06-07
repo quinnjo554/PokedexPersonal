@@ -11,6 +11,7 @@ export interface MoveLearnset {
 }
 export interface Move {
   basePower: number;
+  accuracy: number;
   type: string;
 }
 

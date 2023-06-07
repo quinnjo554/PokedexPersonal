@@ -6,6 +6,7 @@ import {
 } from "../Pokefunctions/getFunctions";
 import { pokemon } from "../interfaces";
 import { startStarfieldAnimation } from "../starfield";
+import { fetchData } from "../ComponenetFunctions/WhosThatPokemonFunctions";
 
 function WhosThatPokemon() {
   // State variables
@@ -34,24 +35,8 @@ function WhosThatPokemon() {
   //fetch the rand pokemon on load and when the score changes
   //being called twice because of strict mode
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getRandomPokemon();
-      const name = data?.name;
-      setPokemon(data);
-      if (name) {
-        const lowercaseName = name.toLowerCase();
-        const id = await getPokeIdByName(lowercaseName);
-        setPokemonId(id?.id);
-        setPokeImg(
-          `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id?.id}.png`
-        );
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, [score]);
+    fetchData(setPokemon, setPokemonId, setPokeImg, setIsLoading);
+  }, []);
 
   //load the background ani and get all pokemon for filtering
   useEffect(() => {
@@ -90,13 +75,16 @@ function WhosThatPokemon() {
     }
   };
 
-  const handleNext = () => {
+  function setUpValuesForNewPokemon() {
     setIsBlurred("");
     setCanGuess("visible");
     setCanProceed("hidden");
     setEndText("");
     setScore((prev) => prev + 1);
+  }
 
+  const handleNext = () => {
+    setUpValuesForNewPokemon();
     getRandomPokemon().then((data) => {
       const name = data?.name;
       setPokemon(data);

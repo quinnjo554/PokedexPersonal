@@ -1,14 +1,14 @@
-
-import * as GetFunctions from "../Pokefunctions/getFunctions"
-import { capitalizeFirstLetter } from "../Pokefunctions/getFunctions";
-const {} = jest.requireActual<typeof GetFunctions>("../Pokefunctions/getFunctions")
-
-  //ask steve about testing with async 
-  describe('Get Pokemon Id', () => {
-    it('should fetch a paginated list of all pokemon', () => {
-      const word = "mars";
+//import { capitalizeFirstLetter } from "../Pokefunctions/getFunctions";
+export function capitalizeFirstLetter(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+  describe('Capitalize the first Letter', () => {
+    it('should capitalize the first', () => {
+        const word = "mars";
         const result = capitalizeFirstLetter(word);
+        console.log(result)
         expect(result).toBe("Mars");
     });
   });
   
+ 

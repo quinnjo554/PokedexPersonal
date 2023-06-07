@@ -16,6 +16,7 @@ function BattleArena(props: {
   const [isPlayer1Turn, setIsPlayer1Turn] = useState(false);
   const [isPlayer1Defeated, setIsPlayer1Defeated] = useState(false);
   const [isAIDefeated, setIsAIDefeated] = useState(false);
+  const [actionText, setActionText] = useState("");
 
   //set level of pokemon with a slider
 
@@ -24,18 +25,25 @@ function BattleArena(props: {
     defender: pokemon | undefined,
     move: Move
   ) {
-    // Check if attacker and defender are defined before performing calculations
     if (!attacker || !defender) {
       return 0;
     }
-    //
-    // Calculate the damage formula
-    const level = 15;
+
+    const level = 12;
     const attack = attacker.attack;
     const defense = defender.defense;
     const basePower = move.basePower;
-    const typeEffectiveness = getTypeEffectiveness(move.type, defender.types); // Calculate the type effectiveness of the move
-    const modifier = calculateModifier(); // Calculate additional modifiers
+    const typeEffectiveness = getTypeEffectiveness(move.type, defender.types);
+    const modifier = calculateModifier();
+    const accuracy = move.accuracy || 100;
+
+    const hitChance = Math.random() * 100;
+    console.log(hitChance);
+    if (hitChance > accuracy) {
+      // The move missed
+      setActionText(`${attacker.name}'s attack missed!`);
+      return 0;
+    }
 
     const damage = Math.floor(
       ((((2 * level) / 5 + 2) * basePower * (attack / defense)) / 50) *
@@ -52,6 +60,7 @@ function BattleArena(props: {
       const move = await getMoveInfo(name);
       setAICurrentHP((prev) => {
         const damage = calculateDamage(player1Data, aiData, move);
+        setActionText(`${player1Data?.name} used ${name} for ${damage} hp`);
         if (prev - damage <= 0) {
           setIsAIDefeated(true);
           return 0;
@@ -63,9 +72,11 @@ function BattleArena(props: {
       });
     } else {
       const randomNumber: number = Math.floor(Math.random() * 4);
-      const move = await getMoveInfo(props.aiMoveSet[randomNumber].move.name);
+      const moveName = props.aiMoveSet[randomNumber].move.name;
+      const move = await getMoveInfo(moveName);
       setPlayer1CurrentHP((prev) => {
         const damage = calculateDamage(aiData, player1Data, move);
+        setActionText(`${aiData?.name} used ${moveName} for ${damage} hp`);
         if (prev - damage <= 0) {
           setIsPlayer1Defeated(true);
           return 0;
@@ -127,6 +138,7 @@ function BattleArena(props: {
 
   return (
     <div className="fixed top-0 right-0 w-full h-full arena bg-gray-900">
+      <h1 className="text-white text-3xl">{actionText}</h1>
       <div>
         <img
           className={`w-1/3 left-[9%] bottom-[-11rem] fixed ${

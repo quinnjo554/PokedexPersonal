@@ -1,11 +1,11 @@
 import "./App.css";
-import LandingPage from "./components/LandingPage";
+import LandingPage from "./Components/LandingPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import PokedexHero from "./components/PokedexHero";
-import PokemonPage from "./components/PokemonPage";
-import WhosThatPokemon from "./components/WhosThatPokemon";
-import PokeFightingLanding from "./components/PokeFightingLanding";
-import PokemonMoveSelection from "./components/PokemonMoveSelection";
+import PokedexHero from "./Components/PokedexHero";
+import PokemonPage from "./Components/PokemonPage";
+import WhosThatPokemon from "./Components/WhosThatPokemon";
+import PokeFightingLanding from "./Components/PokeFightingLanding";
+import PokemonMoveSelection from "./Components/PokemonMoveSelection";
 function App() {
   return (
     <>
