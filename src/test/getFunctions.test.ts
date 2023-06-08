@@ -1,13 +1,11 @@
-//import { capitalizeFirstLetter } from "../Pokefunctions/getFunctions";
-export function capitalizeFirstLetter(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-  describe('Capitalize the first Letter', () => {
+import { toLowercaseName } from "../Pokefunctions/getFunctions";
+
+  describe('Make the first Letter Lowercase', () => {
     it('should capitalize the first', () => {
-        const word = "mars";
-        const result = capitalizeFirstLetter(word);
+      const word = "Mars";
+        const result = toLowercaseName(word);
         console.log(result)
-        expect(result).toBe("Mars");
+        expect(result).toBe("mars");
     });
   });
   

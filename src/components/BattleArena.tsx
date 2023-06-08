@@ -29,7 +29,7 @@ function BattleArena(props: {
       return 0;
     }
 
-    const level = 12;
+    const level = 20;
     const attack = attacker.attack;
     const defense = defender.defense;
     const basePower = move.basePower;
@@ -154,9 +154,9 @@ function BattleArena(props: {
         }`}
       >
         <h1 className="text-2xl font-bold mb-2">{player1Data?.name}</h1>
-        <div className="health-bar bg-red-400 h-4 mb-2">
+        <div className="health-bar bg-red-400 h-4 mb-2 rounded-md">
           <div
-            className="bg-green-400 h-full"
+            className="bg-green-400 h-full rounded-md"
             style={{
               width: `${(player1CurrentHP / (player1Data?.hp || 1)) * 100}%`,
             }}
@@ -210,9 +210,9 @@ function BattleArena(props: {
         }`}
       >
         <h1 className="text-2xl font-bold mb-2">{aiData?.name}</h1>
-        <div className="health-bar bg-red-400 h-4 mb-2 ">
+        <div className="health-bar bg-red-400 h-4 mb-2 rounded-md">
           <div
-            className="bg-green-400 h-full"
+            className="bg-green-400 h-full rounded-md"
             style={{
               width: `${(aiCurrentHP / (aiData?.hp || 1)) * 100}%`,
             }}

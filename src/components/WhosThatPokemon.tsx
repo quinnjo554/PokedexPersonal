@@ -36,12 +36,13 @@ function WhosThatPokemon() {
   //being called twice because of strict mode
   useEffect(() => {
     fetchData(setPokemon, setPokemonId, setPokeImg, setIsLoading);
-  }, []);
+  }, [score]);
 
   //load the background ani and get all pokemon for filtering
   useEffect(() => {
+    const MAX_POKEMON = 550;
     startStarfieldAnimation(canvasRef);
-    getAllPokemon("0", 550).then((data) => {
+    getAllPokemon("0", MAX_POKEMON).then((data) => {
       setPokeArray(data["content"]);
       console.log(data["content"]);
     });

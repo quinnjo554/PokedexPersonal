@@ -1,7 +1,7 @@
 //6 endpoints from your backend
 
 import axios from 'axios';
-import { Ability, Move, MoveLearnset } from '../interfaces';
+import { Move, MoveLearnset } from '../interfaces';
 
 
 export async function getLearnset(pokemonId: number): Promise<MoveLearnset[] | undefined> {
@@ -103,7 +103,6 @@ export async function getPokemonById(id:string | undefined) {
       console.log(error);
     }
   }
-
   //not my api
   export async function getPokeIdByName(name:string|undefined){
   try {
@@ -117,7 +116,7 @@ export async function getPokemonById(id:string | undefined) {
   }
 //not my api
   export async function getPokemonEvolution(name:string){
-    const lowercaseName = capitalizeFirstLetter(name);
+    const lowercaseName = toLowercaseName(name);
     try {
       const species = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${lowercaseName}`)
       const speciesData = species.data;
@@ -171,7 +170,7 @@ export async function getAllPokemonImgs(pokemon: string) {
 }
 
 
-export function capitalizeFirstLetter(str: string): string {
+export function toLowercaseName(str: string): string {
   return str.charAt(0).toLowerCase() + str.slice(1);
 }
 

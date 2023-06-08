@@ -83,3 +83,9 @@ export interface Ability {
     steel: 'bg-gray-400',
     fairy: 'bg-pink-300',
   };
+
+  export interface PresentPokemonProps {
+    page: string;
+    selectedPokemon:string
+    onPokemonClick: (pokemon: string) => void;
+  }
